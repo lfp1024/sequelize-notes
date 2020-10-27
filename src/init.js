@@ -35,17 +35,31 @@ let Student = sequelize.define('student', {
     name: Sequelize.STRING(100),
     age: Sequelize.INTEGER,
     isAdult: Sequelize.BOOLEAN,
+    classId: Sequelize.INTEGER,
+}, {
+    timestamps: false
+});
+
+let Class = sequelize.define('class', {
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    name: Sequelize.STRING(100),
+    student_num: Sequelize.INTEGER,
 }, {
     timestamps: false
 });
 
 // 同步数据模型，建立表
-// Student.sync({
-//     force: true
-// }).then((data) => { console.log('students 表创建成功') })
+// sequelize.sync({
+//     alter: true
+// }).then((data) => { console.log(`${database.dbName} 表修改创建成功`) })
 
 
 module.exports = {
     sequelize,
-    Student
+    Student,
+    Class,
 }
