@@ -35,7 +35,7 @@ let Student = sequelize.define('student', {
     name: Sequelize.STRING(100),
     age: Sequelize.INTEGER,
     isAdult: Sequelize.BOOLEAN,
-    classId: Sequelize.INTEGER,
+    class_id: Sequelize.INTEGER,
 }, {
     timestamps: false
 });
