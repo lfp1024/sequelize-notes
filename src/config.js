@@ -6,6 +6,6 @@ module.exports = {
         host: 'localhost',
         port: 3306,
         username: 'root',
-        password: '1234'    // 需要为字符串类型
+        password: 'mysql1024'    // 需要为字符串类型
     }
 }
