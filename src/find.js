@@ -27,16 +27,32 @@ async function findByUndefined() {
     console.log('res = ', res)
 }
 
-async function findALl() {
+(async (fn) => {
+    fn()
+        .then(data => { console.log('create user:', data) })
+        .finally(() => { sequelize.close() })
+})(findOne)
+
+
+async function update(model) {
+    model.age = 12
+    return await model.save()
+}
+
+
+async function findAll() {
     const res = await Student.findAll({
         where: {
             name: {
                 [Op.in]: ['lfp', 'lx', 'wst']
             }
-        }
+        },
+        attributes: ['age']
     })
     if (res) {
-        console.log('succeed:', res.length, res)
+        // 可以直接取Model中的字段值
+        const arr = res.map(ele => { return ele.age })
+        console.log('succeed:', res.length, res[0].age, arr)
     } else {
         console.log('failure:', res)
     }
@@ -47,3 +63,10 @@ async function findALl() {
         .then(data => { console.log('create user:', data) })
         .finally(() => { sequelize.close() })
 })(findByUndefined)
+// (async (fn1,fn2) => {
+//     const res = await fn1();
+//     await fn2(res)
+//     await fn1()
+//         .then(data => { console.log('create user:', data) })
+//         .finally(() => { sequelize.close() })
+// })(findOne,update)
