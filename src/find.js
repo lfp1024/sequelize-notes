@@ -1,6 +1,27 @@
 const { Student, sequelize } = require('./init')
 const { Op } = require('sequelize')
 
+async function findOneNotExist() {
+    // const res = await Student.findOne({
+    //     where: {
+    //         name: 'lxxxx',
+    //     },
+    // })
+    // console.log('res = ', res) // res = null 找不到，返回null
+
+    const res = await Student.findOne({
+        where: {
+            name: 'lxxxx',
+        },
+    }).then(result => (result ? result : {}))
+
+    if (res) {
+        console.log('succeed:', typeof res, res) // object {}
+    } else {
+        console.log('failure:', res)
+    }
+}
+
 async function findOne() {
     const res = await Student.findOne({
         where: {
@@ -27,42 +48,63 @@ async function findByUndefined() {
     console.log('res = ', res)
 }
 
-(async (fn) => {
-    fn()
-        .then(data => { console.log('create user:', data) })
-        .finally(() => { sequelize.close() })
-})(findOne)
-
-
-async function update(model) {
-    model.age = 12
-    return await model.save()
-}
-
 
 async function findAll() {
-    const res = await Student.findAll({
+    const res = await Student.findAll().then(row => row.map(e => e.name));
+    console.log('res = ', res);
+}
+
+// 如果该字段没有值，查出来的为null
+// res =  [
+//     'dsb',  'wst',  'lx',
+//     'wst',  null,   null,
+//     'xh',   'xh',   '小五',
+//     '小六', '小五', '小六',
+//     '小七', '小七'
+//   ]
+
+
+async function findOneReturnValue() {
+    const res = await Student.findOne({
         where: {
-            name: {
-                [Op.in]: ['lfp', 'lx', 'wst']
-            }
+            name: 'lx',
         },
-        attributes: ['age']
-    })
+    }).then()
+    console.log('res = ', res)
     if (res) {
-        // 可以直接取Model中的字段值
-        const arr = res.map(ele => { return ele.age })
-        console.log('succeed:', res.length, res[0].age, arr)
+        console.log('succeed:', typeof res, res)
     } else {
         console.log('failure:', res)
     }
+    const res2 = res.dataValues;
+    res2.age = 2010;
+    delete res2.id
+    console.log('res2 = ', res2)
+    const rr = await Student.create(res2);
+    console.log('rr = ', rr);
 }
+
 
 (async (fn) => {
     fn()
         .then(data => { console.log('create user:', data) })
         .finally(() => { sequelize.close() })
-})(findByUndefined)
+})(findOneReturnValue)
+
+
+
+
+
+
+// async function update(model) {
+//     model.age = 12
+//     return await model.save()
+// }
+// (async (fn) => {
+//     fn()
+//         .then(data => { console.log('create user:', data) })
+//         .finally(() => { sequelize.close() })
+// })(findByUndefined)
 // (async (fn1,fn2) => {
 //     const res = await fn1();
 //     await fn2(res)
