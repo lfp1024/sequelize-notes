@@ -1,3 +1,4 @@
+const { DATE } = require('sequelize')
 const Sequelize = require('sequelize')
 const { database } = require('./config')
 
@@ -16,7 +17,17 @@ const sequelize = new Sequelize(
             acquire: 30000,
             idle: 10000,
         },
-        timezone: '+08:00' //时区转换
+        timezone: '+08:00', //时区转换 东八区
+        dialectOptions: {
+            dateStrings: true,
+            typeCast(field, next) {
+                if (field.type === 'DATETIME') {
+                    return field.string();
+                }
+                return next();
+            },
+        },
+        logging: (sql) => console.log(sql),
     }
 )
 // 测试连接
@@ -52,8 +63,19 @@ let Class = sequelize.define('class', {
     timestamps: false
 });
 
+let Teacher = sequelize.define('teacher', {
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    name: Sequelize.STRING(100),
+    birthday: Sequelize.DATE,
+    sex: Sequelize.INTEGER,
+});
+
 // 同步数据模型，建立表
-// sequelize.sync({
+// Teacher.sync({
 //     alter: true
 // }).then((data) => { console.log(`${database.dbName} 表修改创建成功`) })
 
@@ -62,4 +84,5 @@ module.exports = {
     sequelize,
     Student,
     Class,
+    Teacher,
 }
