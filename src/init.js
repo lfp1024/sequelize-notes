@@ -72,6 +72,7 @@ let Teacher = sequelize.define('teacher', {
     name: Sequelize.STRING(100),
     birthday: Sequelize.DATE,
     sex: Sequelize.INTEGER,
+    desc: Sequelize.JSON,
 });
 
 // 同步数据模型，建立表
