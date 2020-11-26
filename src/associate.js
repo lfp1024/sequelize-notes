@@ -15,9 +15,9 @@ async function associateTest() {
                     }
                 },
                 // required: false // 添加where 后变为内联，需要显式指定 false 左联
+                associate: Student.belongsTo(Class) // 如果model那里没有建立关系，需要在这里创建，且这里的关系优先级高
             }
         ],
-        associate: Student.belongsTo(Class) // 如果model那里没有建立关系，需要在这里创建，且这里的关系优先级高
     })
     console.log('res = ', res)
 }
@@ -36,10 +36,10 @@ async function associateForeignKeyTest() {
                     }
                 },
                 // required: false // 添加where 后变为内联，需要显式指定 false 左联
+                // 如果表中自建的外建名跟默认的不一致，可以显式指定外键名
+                associate: Student.belongsTo(Class, { foreignKey: 'class_id' }), // 显式指定外建，默认是通过表名和主键生成的 classId 驼峰式
             }
         ],
-        // 如果表中自建的外建名跟默认的不一致，可以显式指定外键名
-        associate: Student.belongsTo(Class, { foreignKey: 'class_id' }), // 显式指定外建，默认是通过表名和主键生成的 classId 驼峰式
         logging: log => {
             console.log('========> ', log)
         }
@@ -63,9 +63,9 @@ async function associateAsTest() {
                     }
                 },
                 // required: false // 添加where 后变为内联，需要显式指定 false 左联
+                associate: Student.belongsTo(Class, { as: 'c' }) // 如果model那里没有建立关系，需要在这里创建，且这里的关系优先级高
             }
         ],
-        associate: Student.belongsTo(Class, { as: 'c' }) // 如果model那里没有建立关系，需要在这里创建，且这里的关系优先级高
     })
     console.log('res = ', res)
 }
