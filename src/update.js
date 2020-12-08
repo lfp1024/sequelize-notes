@@ -2,7 +2,7 @@ const { Student, sequelize, Teacher } = require('./init')
 const { Op } = require('sequelize')
 
 async function update() {
-    await Student.update(
+    const res = await Student.update(
         {
             age: 19,
         },
@@ -12,6 +12,7 @@ async function update() {
             }
         }
     );
+    console.log('res =', res)
 }
 
 

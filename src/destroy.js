@@ -15,10 +15,10 @@ async function destroyAll() {
     const res = await Student.destroy({
         // Error: WHERE parameter "name" has invalid "undefined" value
         where: {
-            age: 19
+            age: 1999
         }
     })
-    console.log('res = ', res) // 6 删除所有满足条件的，返回删除条目个数
+    console.log('res = ', res) // 6 删除所有满足条件的，返回删除条目个数。没有满足条件的则不删除，返回0
 }
 
 (async (fn) => {

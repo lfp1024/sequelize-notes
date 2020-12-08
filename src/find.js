@@ -50,7 +50,11 @@ async function findByUndefined() {
 
 
 async function findAll() {
-    const res = await Student.findAll().then(row => row.map(e => e.name));
+    const res = await Student.findAll({
+        where: {
+            name: ''
+        }
+    });
     console.log('res = ', res);
 }
 
@@ -87,9 +91,9 @@ async function findOneReturnValue() {
 
 (async (fn) => {
     fn()
-        .then(data => { console.log('create user:', data) })
+        .then(data => { console.log('operator successfully', data) })
         .finally(() => { sequelize.close() })
-})(findOneReturnValue)
+})(findAll)
 
 
 
