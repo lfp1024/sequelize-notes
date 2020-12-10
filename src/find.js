@@ -1,4 +1,4 @@
-const { Student, sequelize } = require('./init')
+const { Student, Teacher, Class, sequelize } = require('./init')
 const { Op } = require('sequelize')
 
 async function findOneNotExist() {
@@ -89,11 +89,25 @@ async function findOneReturnValue() {
 }
 
 
+async function findOneTestCreatedAt() {
+    const res = await Class.findOne({
+        where: {
+            name: '一年级',
+        },
+    })
+    console.log('res = ', res) //  created_at as createdAt 结果是驼峰式的
+    if (res) {
+        console.log('succeed:', typeof res.createdAt, res.createdAt) // string 2020-11-10 11:33:30
+    } else {
+        console.log('failure:', res)
+    }
+}
+
 (async (fn) => {
     fn()
         .then(data => { console.log('operator successfully', data) })
         .finally(() => { sequelize.close() })
-})(findAll)
+})(findOneTestCreatedAt)
 
 
 

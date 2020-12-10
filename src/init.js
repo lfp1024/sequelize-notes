@@ -17,6 +17,7 @@ const sequelize = new Sequelize(
             acquire: 30000,
             idle: 10000,
         },
+        underscored: true,
         timezone: '+08:00', //时区转换 东八区
         dialectOptions: {
             dateStrings: true,
@@ -60,7 +61,10 @@ let Class = sequelize.define('class', {
     name: Sequelize.STRING(100),
     student_num: Sequelize.INTEGER,
 }, {
-    timestamps: false
+    // timestamps: false
+    underscored: true
+    // true => SELECT `id`, `name`, `student_num`, `created_at` AS `createdAt`, `updated_at` AS `updatedAt` FROM `classes` AS `class` WHERE `class`.`name` = '一年级' LIMIT 1;
+    // false=> SELECT `id`, `name`, `student_num`, `createdAt`, `updatedAt` FROM `classes` AS `class` WHERE `class`.`name` = '一年级' LIMIT 1
 });
 
 let Teacher = sequelize.define('teacher', {
