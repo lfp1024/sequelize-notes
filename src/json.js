@@ -1,12 +1,17 @@
 const { Student, sequelize, Teacher } = require('./init')
 const { Op } = require('sequelize');
 
+/**
+ * 详见笔记
+ */
+
 async function update() {
     // 获取出来的是一个 json 字符串，需要 parse 成 JavaScript 对象
     // desc: '{ "proxy": { "site": { "JP": "foreign", "SA": "foreign", "SZ": "domestic" } }, "others": {} }',
     await Teacher.update(
         {
-            desc: { "proxy": { "site": { "JP": "foreign", "SA": "foreign", "SZ": "domestic" } }, "others": {} },
+            // {"title": "sheena cabenian", "content": "系统自动填充内容😊"}
+            desc: { "proxy": { "site": { "JP": "foreign", "SA": "foreign", "SZ": "domestic" } },"others": {"title": "sheena cabenian", "content": "Kelan po kaya dadating ang inorder ko? \ud83d"} },
         },
         {
             where: {
@@ -42,4 +47,4 @@ async function findJson() {
     fn()
         .then(data => { console.log('operate successfully:', data) })
         .finally(() => { sequelize.close() })
-})(findJson)
+})(update)
