@@ -8,6 +8,9 @@ async function findAll() {
                 [Op.in]: ['lfp', 'lx', 'wst']
             }
         },
+        // where: {
+        //     name: ['lfp', 'lx', 'wst'] 数组可直接使用
+        // },
         attributes: ['age']
     })
     if (res) {
