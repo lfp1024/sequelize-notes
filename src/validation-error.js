@@ -38,13 +38,13 @@ const { sleep } = require('./util');
     // 加锁
     let lock = false; // 方法作用域之外
     let waitQueue = [];
-    async function readAndWrite() {
+    async function readAndWrite(name) {
         if (lock) {
             console.log('readAndWrite = ', readAndWrite);
-            return waitQueue.push(readAndWrite)
+            return waitQueue.push(() => readAndWrite(name))
         }
         lock = true;
-        console.log('called1', n += 1);
+        console.log('called1', n += 1, name);
         const students = await Student.findAll();
         console.log('called2', n += 1);
         await sleep(1000);
@@ -67,8 +67,9 @@ const { sleep } = require('./util');
         waitQueue.length > 0 ? waitQueue.shift()() : null;
     }
 
+    const name = ['小米', '小明']
     new Array(2).fill(null).forEach(async ele => {
-        await readAndWrite();
+        await readAndWrite(name.pop());
     });
 
 })();
