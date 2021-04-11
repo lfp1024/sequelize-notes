@@ -51,8 +51,8 @@ async function findAndCreateUseOldDate() {
 
     const rr = res.dataValues;
     const values = {
-        name:'test',
-        sex:112,
+        name: 'test',
+        sex: 112,
         // birthday:rr.birthday, //  服用之前的生日时间，根据本地的时区，具体存入的时间不同。
         // 如果本地是CST，则之前的生日在存入MySQL的时候会被-8，查询的时候再+8，两者生日相同
         // 如果本地是UTC，则之前的生日在存入MySQL的时候不会-8，查询的时候再+8，后者生日+8小时
@@ -65,8 +65,20 @@ async function findAndCreateUseOldDate() {
     console.log('succeed222:', typeof res2, res2) // object {}
 }
 
+async function insertDateTimeString() {
+    const birthday = Date.parse('1969-12-31 23:59:59');
+    console.log('birthday = ', birthday);
+    const values = {
+        name: 'test',
+        sex: 112,
+        birthday,
+    }
+    const res2 = await create(values);
+    console.log('222:',  res2)
+}
+
 (async (fn) => {
     fn()
         .then(data => { console.log('operate successfully:', data) })
         .finally(() => { sequelize.close() })
-})(findAndCreateUseOldDate)
+})(insertDateTimeString)
