@@ -1,4 +1,4 @@
-const { Student, sequelize } = require('./init')
+const { Student, Teacher, sequelize } = require('./init')
 
 async function createUser() {
     let user = {
@@ -19,9 +19,20 @@ async function upsertUser() {
     }
     return await Student.create(user)
 }
+// const birth = Date.now();
+// const birth = '2021-02-25 09:00:00'; // 存入的时候减 8h
+const birth  = new Date('2021-02-25 09:00:00').getTime();
+console.log('birth = ', birth);
+async function createTeacher() {
+    let teacher = {
+        name: '4',
+        birthday: birth,
+    }
+    return Teacher.create(teacher, { logging: sql => console.log(sql) });
+}
 
 (async (fn) => {
     fn()
         .then(data => { console.log('create user:', data) })
         .finally(() => { sequelize.close() })
-})(upsertUser)
+})(createTeacher)

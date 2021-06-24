@@ -77,8 +77,18 @@ async function insertDateTimeString() {
     console.log('222:',  res2)
 }
 
+async function insertDateTime() {
+    const res = await Teacher.create({
+        name: 'test',
+        sex: 112,
+        birthday: '1969-12-31 23:59:59'
+    });
+    console.log('res ============================================ ', res);
+}
+
+
 (async (fn) => {
     fn()
         .then(data => { console.log('operate successfully:', data) })
         .finally(() => { sequelize.close() })
-})(insertDateTimeString)
+})(insertDateTime)

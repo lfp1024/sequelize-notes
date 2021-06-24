@@ -1,5 +1,8 @@
 const { Student, Teacher, Class, sequelize } = require('./init')
 const { Op } = require('sequelize')
+/**
+ * 找不到，返回null
+ */
 
 async function findOneNotExist() {
     // const res = await Student.findOne({

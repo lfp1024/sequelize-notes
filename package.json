@@ -19,6 +19,6 @@
   "homepage": "https://github.com/lfp1024/sequelize-notes#readme",
   "dependencies": {
     "mysql2": "^2.2.1",
-    "sequelize": "^6.3.5"
+    "sequelize": "^6.6.2"
   }
 }

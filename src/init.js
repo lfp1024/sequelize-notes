@@ -12,21 +12,35 @@ const sequelize = new Sequelize(
         port: 3306,
         dialect: 'mysql',
         pool: {
-            max: 10,
+            max: 20,
             min: 0,
-            acquire: 30000,
-            idle: 10000,
         },
         underscored: true,
         timezone: '+08:00', //时区转换 东八区
         dialectOptions: {
+            // typeCast: true,
+            // dateStrings: true,
+
             dateStrings: true,
             typeCast(field, next) {
+                console.log('000000000000000000000', field);
+                console.log('111111111111111111111 ', Function.toString.call(field.string));
                 if (field.type === 'DATETIME') {
-                    return field.string();
+                    return field.string(); // 原始字符串
                 }
                 return next();
             },
+
+            // dateStrings: true,
+            // typeCast(field, next) {
+            //     console.log('000000000000000000000', field);
+            //     console.log('111111111111111111111 ', Function.toString.call(field.string));
+            //     if (field.type === 'DATETIME') {
+            //         return field.string(); // 原始字符串
+            //     }
+            //     return next();
+            // },
+
         },
         logging: (sql) => console.log(sql),
     }
@@ -49,7 +63,8 @@ let Student = sequelize.define('student', {
     isAdult: Sequelize.BOOLEAN,
     class_id: Sequelize.INTEGER,
 }, {
-    timestamps: false
+    timestamps: false,
+    underscored: true,
 });
 
 let Class = sequelize.define('class', {
@@ -74,7 +89,7 @@ let Teacher = sequelize.define('teacher', {
         autoIncrement: true
     },
     name: Sequelize.STRING(100),
-    birthday: Sequelize.DATE,
+    birthday: Sequelize.STRING,
     sex: Sequelize.INTEGER,
     desc: Sequelize.JSON,
 });
